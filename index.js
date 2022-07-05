@@ -24,16 +24,27 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get("/api", (reqw, res) => {
+    res.json({
+			unix: +new Date().getTime(),
+			utc: new Date().toGMTString(),
+		})
+})
+
 app.get("/api/:timestamp", (req, res) => {
   console.log(req.params.timestamp)
   const { timestamp } = req.params
+  const date = new Date(timestamp)
+
   if (/^[0-9]+$/.test(timestamp)) {
     res.json({
 			unix: +timestamp,
 			utc: new Date(+timestamp).toGMTString()
 		})
   }
-  else if (/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(timestamp)) {
+  else if (date instanceof Date && !isNaN(date)) {
+    // console.log('Date(timestamp):', date)
+  // else if (/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(timestamp)) {
     res.json({
 			unix: +(new Date(timestamp).getTime()),
 			utc: new Date(timestamp).toGMTString()
