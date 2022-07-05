@@ -28,16 +28,14 @@ app.get("/api/:timestamp", (req, res) => {
   console.log(req.params.timestamp)
   const { timestamp } = req.params
   if (/^[0-9]+$/.test(timestamp)) {
-    console.log('In seconds')
     res.json({
-			unix: timestamp,
+			unix: +timestamp,
 			utc: new Date(+timestamp).toGMTString()
 		})
   }
   else if (/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/.test(timestamp)) {
-    console.log('Date format')
     res.json({
-			unix: new Date(timestamp).getTime(),
+			unix: +(new Date(timestamp).getTime()),
 			utc: new Date(timestamp).toGMTString()
 		})
   }
